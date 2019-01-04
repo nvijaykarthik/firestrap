@@ -1,0 +1,20 @@
+body{
+	background:#021c1e;
+}
+
+.topMenu{
+	background:#004445;
+	color:white;
+	text-align:right;
+	font-size:15px;
+}
+
+.secondMenu{
+	background:#2c7873;
+}
+
+.footerMenu{
+	background:#6fb98f;
+	color:white;
+	min-height:250px;
+}
