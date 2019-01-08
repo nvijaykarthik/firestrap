@@ -1,0 +1,41 @@
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+   background:#f8f9fa;
+   color:white;
+}
+#container {
+   min-height:100%;
+   position:relative;
+}
+#header {
+   padding:0;
+}
+#body {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:35px;   /* Height of the footer */
+   background:#1e1f26;
+   color:#b7b7b7;
+   padding:5px;
+}
+
+.topMenu{
+	background:#1e1f26;
+	color:white;
+	text-align:right;
+	font-size:15px;
+}
+.secondMenu{
+	background:#056cc1;
+}
+.footer{
+   background:#1e1f26;
+}
