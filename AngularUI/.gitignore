@@ -1,9 +1,14 @@
 .gradle
 /target/
+/node_modules
 !.mvn/wrapper/maven-wrapper.jar
 /build/
 /bin/
 !gradle/wrapper/gradle-wrapper.jar
+
+/dist
+/tmp
+/out-tsc
 
 ### STS ###
 .apt_generated
