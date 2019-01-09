@@ -15,6 +15,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
             .requestMatcher(new RequestHeaderRequestMatcher("Authorization"))
+            .antMatcher("/**")
             .authorizeRequests().anyRequest().fullyAuthenticated();
     }
 
