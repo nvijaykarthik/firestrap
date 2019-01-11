@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import { AppNavComponent } from './app-nav/app-nav.component';
 import { HomeComponent } from './home/home.component';
+import { TopNavService} from './top-nav/top-nav.service';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [TopNavService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TopNavService } from './top-nav.service'
 
 @Component({
   selector: 'app-top-nav',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopNavComponent implements OnInit {
 
-  constructor() { }
+userName: string;
+
+  constructor(private topNavService: TopNavService) { }
 
   ngOnInit() {
+   console.debug("Inside TopNavComponent init");
+     this.topNavService.getUserName().subscribe(
+      resp => {
+        this.userName = resp;
+      },
+      err => {
+        alert("Failed to get the user name")
+      }
+    )
   }
 
 }
