@@ -44,7 +44,6 @@ public class LoginController {
 		List<Approval> approvals = clientDetailsService.listClientDetails().stream()
 				.map(clientDetails -> approvalStore.getApprovals(principal.getName(), clientDetails.getClientId()))
 				.flatMap(Collection::stream).collect(Collectors.toList());
-
 		log.debug("approvals {}", approvals);
 		log.debug("Clients {}", clientDetailsService.listClientDetails());
 		model.put("approvals", approvals);
