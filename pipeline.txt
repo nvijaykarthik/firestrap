@@ -3,7 +3,7 @@ node{
    dir('discovery'){
        stage('checkOut') { // for display purposes
           // Get some code from a GitHub repository
-          git([url: 'https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/discovery.git', branch: 'master'])          
+          git([url: 'https://@velocity.cognizant.com/bitbucket/scm/dep/discovery.git', branch: 'master'])          
        }
        stage('Build') {
           bat(/"${gradleHome}\bin\gradle" clean build/)
@@ -18,7 +18,7 @@ node{
     dir('gateway'){
         stage('checkOut') { // for display purposes
         // Get some code from a GitHub repository
-        git([url: 'https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/gateway.git', branch: 'master'])          
+        git([url: 'https://@velocity.cognizant.com/bitbucket/scm/dep/gateway.git', branch: 'master'])          
       }
       stage('Build') {
           bat(/"${gradleHome}\bin\gradle" clean build/)
@@ -34,7 +34,7 @@ node{
     dir('oauth2Server'){
           stage('checkOut') { // for display purposes
           // Get some code from a GitHub repository
-          git([url: 'https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/Oauth2Server.git', branch: 'master'])          
+          git([url: 'https://#@velocity.cognizant.com/bitbucket/scm/dep/Oauth2Server.git', branch: 'master'])          
         }
         stage('Build') {
             bat(/"${gradleHome}\bin\gradle" clean build/)
