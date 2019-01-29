@@ -34,6 +34,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
 	implementation('org.springframework.cloud:spring-cloud-starter-sleuth')
+	implementation('javax.xml.bind:jaxb-api')
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
