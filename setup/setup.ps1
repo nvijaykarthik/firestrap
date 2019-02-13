@@ -1,3 +1,4 @@
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force -Verbose
 $content = [IO.File]::ReadAllText('.\jenkins\firestrap-initial-pipeline-template.xml')
 $discovery=Read-Host "Enter the GIT url for discovery service"
 $gateway=Read-Host "Enter the GIT url for Gatway service"
@@ -7,7 +8,6 @@ $serviceOne=Read-Host "Enter the GIT url for seviceOne service"
 
 $content -replace '{{discovery}}', $discovery -replace '{{gateway}}', $gateway -replace '{{serviceOne}}', $serviceOne -replace '{{oauth2Server}}',$oauth2Server -replace '{{angularUI}}', $angularUI | Set-Content -Path config.xml
 Copy-Item config.xml .\jenkins\config.xml 
-
 
 Write-Output "settin up git repository for the firstrap"
 
