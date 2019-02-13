@@ -67,7 +67,7 @@ task buildAngular(type:Exec) {
 	
 	// ng doesn't exist as a file in windows -> ng.cmd
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-		commandLine "ng.cmd", "build"
+		commandLine "ng.cmd", "build" , "--base-href" , "/angular/"
 	} else {
 		commandLine "ng", "build"
 	}

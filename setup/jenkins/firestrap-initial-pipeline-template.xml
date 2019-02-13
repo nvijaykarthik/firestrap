@@ -1,0 +1,91 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.31">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.61">
+    <script>node{
+   def gradleHome = tool &apos;G5.1.1&apos;
+   dir(&apos;discovery&apos;){
+       stage(&apos;checkOut&apos;) { // for display purposes
+          // Get some code from a GitHub repository
+          git([url: &apos;{{discovery}}&apos;, branch: &apos;master&apos;])          
+       }
+       stage(&apos;Build&apos;) {
+          bat(/&quot;${gradleHome}\bin\gradle&quot; clean build/)
+       }
+       stage(&apos;Deploy&apos;) {
+            bat(/copy build\libs\discovery-0.0.1-SNAPSHOT.jar  D:\development\DEP\Deploy\discovery.jar/)
+            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
+                  bat(/start java -jar D:\development\DEP\Deploy\discovery.jar/)
+          } 
+         }
+   }
+    dir(&apos;gateway&apos;){
+        stage(&apos;checkOut&apos;) { // for display purposes
+        // Get some code from a GitHub repository
+        git([url: &apos;{{gateway}}&apos;, branch: &apos;master&apos;])          
+      }
+      stage(&apos;Build&apos;) {
+          bat(/&quot;${gradleHome}\bin\gradle&quot; clean build/)
+      }
+      stage(&apos;Deploy&apos;) {
+          bat(/copy build\libs\gateway-0.0.1-SNAPSHOT.jar  D:\development\DEP\Deploy\gateway.jar/)
+          withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
+                bat(/start java -jar D:\development\DEP\Deploy\gateway.jar/)
+          } 
+        }  
+    }
+
+    dir(&apos;oauth2Server&apos;){
+          stage(&apos;checkOut&apos;) { // for display purposes
+          // Get some code from a GitHub repository
+          git([url: &apos;{{oauth2Server}}&apos;, branch: &apos;master&apos;])          
+        }
+        stage(&apos;Build&apos;) {
+            bat(/&quot;${gradleHome}\bin\gradle&quot; clean build/)
+        }
+        stage(&apos;Deploy&apos;) {
+            bat(/copy build\libs\oauthserver-0.0.1-SNAPSHOT.jar  D:\development\DEP\Deploy\oauthserver.jar/)
+            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
+                  bat(/start java -jar D:\development\DEP\Deploy\oauthserver.jar/)            
+            }
+          }  
+      }
+    dir(&apos;angularUI&apos;){
+          stage(&apos;checkOut&apos;) { // for display purposes
+          // Get some code from a GitHub repository
+          git([url: &apos;{{angularUI}}&apos;, branch: &apos;master&apos;])          
+        }
+        stage(&apos;Build&apos;) {
+            bat(/&quot;${gradleHome}\bin\gradle&quot; clean build/)
+        }
+        stage(&apos;Deploy&apos;) {
+            bat(/copy build\libs\AngularUI-0.0.1-SNAPSHOT.jar  D:\development\DEP\Deploy\angular.jar/)
+            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
+                  bat(/start java -jar D:\development\DEP\Deploy\angular.jar/)            
+            }
+          }  
+      }
+    dir(&apos;service&apos;){
+          stage(&apos;checkOut&apos;) { // for display purposes
+          // Get some code from a GitHub repository
+          git([url: &apos;{{serviceOne}}&apos;, branch: &apos;master&apos;])          
+        }
+        stage(&apos;Build&apos;) {
+            bat(/&quot;${gradleHome}\bin\gradle&quot; clean build/)
+        }
+        stage(&apos;Deploy&apos;) {
+            bat(/copy build\libs\service-0.0.1-SNAPSHOT.jar  D:\development\DEP\Deploy\serviceone.jar/)
+            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
+                  bat(/start java -jar D:\development\DEP\Deploy\serviceone.jar/)            
+            }
+          }  
+      }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
