@@ -1,0 +1,15 @@
+{
+    "git":{
+        "discovery":"https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/discovery.git",
+         "gateway":"https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/gateway.git",
+         "oauth2Server":"https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/Oauth2Server.git",
+         "angularUI":"https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/angularui.git",
+         "serviceOne":"https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/serviceone.git"
+    },
+    "jenkins":{
+        "jobname":"FirstJobFromNode",
+        "url":"http://localhost:8080",
+        "user":"admin",
+        "password":"admin"
+    }
+}

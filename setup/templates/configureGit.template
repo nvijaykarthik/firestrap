@@ -1,0 +1,39 @@
+cd ..\discovery
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin {{discovery}}
+rem git push -u origin master
+
+cd ..\gateway
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin {{gateway}}
+rem git push -u origin master
+
+cd..\oauthserver
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin {{oauth2Server}}
+rem git push -u origin master
+
+cd ..\service
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin {{serviceOne}}
+rem git push -u origin master
+
+cd ..\AngularUI
+git init
+git add --all
+git commit -m "Initial Commit"
+git remote add origin {{angularUI}}
+rem git push -u origin master
+
+cd ..\setup\jenkins
+
+java -jar jenkins-cli.jar -s {{url}} -auth {{user}}:{{pass}} create-job {{jobname}}<config.xml
+java -jar jenkins-cli.jar -s  {{url}} -auth {{user}}:{{pass}} build {{jobname}}
