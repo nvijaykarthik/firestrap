@@ -6,6 +6,7 @@
   <properties/>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.61">
     <script>node{
+   bat(/rd /s /q %userprofile%\Deploy/)
    bat(/mkdir %userprofile%\Deploy/)
    dir(&apos;discovery&apos;){
        stage(&apos;checkOut&apos;) { // for display purposes
