@@ -1,0 +1,8 @@
+{
+    "service":{
+        "name":"myFirstService",
+        "eurekaServerDomainPort":",",
+        "port":"",
+        "oauthServerDomainPort":""
+    }
+}
