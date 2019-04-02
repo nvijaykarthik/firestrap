@@ -3,89 +3,38 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.61">
-    <script>node{
-   bat(/mkdir %userprofile%\Deploy/)
-   dir(&apos;discovery&apos;){
-       stage(&apos;checkOut&apos;) { // for display purposes
-          // Get some code from a GitHub repository
-          git([url: &apos;https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/discovery.git&apos;, branch: &apos;master&apos;])          
-       }
-       stage(&apos;Build&apos;) {
-          bat(/&quot;gradlew&quot; clean build/)
-       }
-       stage(&apos;Deploy-local&apos;) {
-            bat(/copy build\libs\discovery-0.0.1-SNAPSHOT.jar  %userprofile%\Deploy\discovery.jar/)
-            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
-                  bat(/start java -jar %userprofile%\Deploy\discovery.jar/)
-          } 
-         }
-   }
-    dir(&apos;gateway&apos;){
-        stage(&apos;checkOut&apos;) { // for display purposes
-        // Get some code from a GitHub repository
-        git([url: &apos;https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/gateway.git&apos;, branch: &apos;master&apos;])          
-      }
-      stage(&apos;Build&apos;) {
-          bat(/&quot;gradlew&quot; clean build/)
-      }
-      stage(&apos;Deploy-local&apos;) {
-          bat(/copy build\libs\gateway-0.0.1-SNAPSHOT.jar  %userprofile%\Deploy\gateway.jar/)
-          withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
-                bat(/start java -jar %userprofile%\Deploy\gateway.jar/)
-          } 
-        }  
-    }
-
-    dir(&apos;oauth2Server&apos;){
-          stage(&apos;checkOut&apos;) { // for display purposes
-          // Get some code from a GitHub repository
-          git([url: &apos;https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/Oauth2Server.git&apos;, branch: &apos;master&apos;])          
-        }
-        stage(&apos;Build&apos;) {
-            bat(/&quot;gradlew&quot; clean build/)
-        }
-        stage(&apos;Deploy-local&apos;) {
-            bat(/copy build\libs\oauthserver-0.0.1-SNAPSHOT.jar  %userprofile%\Deploy\oauthserver.jar/)
-            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
-                  bat(/start java -jar %userprofile%\Deploy\oauthserver.jar/)            
-            }
-          }  
-      }
-    dir(&apos;angularUI&apos;){
-          stage(&apos;checkOut&apos;) { // for display purposes
-          // Get some code from a GitHub repository
-          git([url: &apos;https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/angularui.git&apos;, branch: &apos;master&apos;])          
-        }
-        stage(&apos;Build&apos;) {
-            bat(/&quot;gradlew&quot; clean build/)
-        }
-        stage(&apos;Deploy-local&apos;) {
-            bat(/copy build\libs\AngularUI-0.0.1-SNAPSHOT.jar  %userprofile%\Deploy\angular.jar/)
-            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
-                  bat(/start java -jar %userprofile%\Deploy\angular.jar/)            
-            }
-          }  
-      }
-    dir(&apos;service&apos;){
-          stage(&apos;checkOut&apos;) { // for display purposes
-          // Get some code from a GitHub repository
-          git([url: &apos;https://585645:VN585645#@velocity.cognizant.com/bitbucket/scm/dep/serviceone.git&apos;, branch: &apos;master&apos;])          
-        }
-        stage(&apos;Build&apos;) {
-            bat(/&quot;gradlew&quot; clean build/)
-        }
-        stage(&apos;Deploy-local&apos;) {
-            bat(/copy build\libs\service-0.0.1-SNAPSHOT.jar  %userprofile%\Deploy\serviceone.jar/)
-            withEnv([&apos;JENKINS_NODE_COOKIE=dontkill&apos;]) {
-                  bat(/start java -jar %userprofile%\Deploy\serviceone.jar/)            
-            }
-          }  
-      }
-}</script>
-    <sandbox>true</sandbox>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.SCMTrigger>
+          <spec>{{JenkinPoller}}</spec>
+          <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.61">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <url>{{GitUrl}}</url>
+          <credentialsId>{{CredentialId}}</credentialsId>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/master</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="list"/>
+      <extensions/>
+    </scm>
+    <scriptPath>Jenkinsfile</scriptPath>
+    <lightweight>true</lightweight>
   </definition>
   <triggers/>
+  <authToken>{{service}}</authToken>
   <disabled>false</disabled>
 </flow-definition>

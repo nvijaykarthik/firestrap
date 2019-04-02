@@ -1,15 +1,34 @@
 {
-    "git":{
-        "discovery":"",
-         "gateway":"",
-         "oauth2Server":"",
-         "angularUI":"",
-         "serviceOne":""
-    },
     "jenkins":{
         "jobname":"FirstJobFromNode",
         "url":"http://localhost:8080",
         "user":"admin",
-        "password":"admin"
-    }
+        "password":"admin",
+        "JenkinPoller":"H */6 * * *"
+    },
+    "git":[{
+        "service":"discovery",
+        "url":"https://velocity.cognizant.com/bitbucket/scm/dep/discovery.git",
+        "jenkinCredentialId":"velocity"
+    },
+    {
+        "service":"gateway",
+        "url":"https://velocity.cognizant.com/bitbucket/scm/dep/gateway.git",
+        "jenkinCredentialId":"velocity"
+    },
+    {
+        "service":"oauth2server",
+        "url":"https://velocity.cognizant.com/bitbucket/scm/dep/Oauth2Server.git",
+        "jenkinCredentialId":"velocity"
+    },
+    {
+        "service":"angularui",
+        "url":"https://velocity.cognizant.com/bitbucket/scm/dep/angularui.git",
+        "jenkinCredentialId":"velocity"
+    },
+    {
+        "service":"serviceone",
+        "url":"https://velocity.cognizant.com/bitbucket/scm/dep/serviceone.git",
+        "jenkinCredentialId":"velocity"
+    }]
 }

@@ -1,31 +1,32 @@
 var fs = require('fs');
-var firestrap_props = require("./firestrap.json");
-var jenkins_pipeline=fs.readFileSync("./jenkins/firestrap-initial-pipeline-template.xml","utf8")
 
-jenkins_pipeline=jenkins_pipeline.replace("{{discovery}}",firestrap_props.git.discovery);
-jenkins_pipeline=jenkins_pipeline.replace("{{gateway}}",firestrap_props.git.gateway);
-jenkins_pipeline=jenkins_pipeline.replace("{{oauth2Server}}",firestrap_props.git.oauth2Server);
-jenkins_pipeline=jenkins_pipeline.replace("{{angularUI}}",firestrap_props.git.angularUI);
-jenkins_pipeline=jenkins_pipeline.replace("{{serviceOne}}",firestrap_props.git.serviceOne);
+var firestrap = require("./firestrap.json");
+let commands = "";
 
-fs.writeFileSync("./jenkins/config.xml",jenkins_pipeline)
+firestrap.git.forEach(fire => {
+  let jenkinsConfig = fs.readFileSync("./jenkins/config.xml", "utf8");
+  jenkinsConfig = jenkinsConfig.replace("{{JenkinPoller}}", firestrap.jenkins.JenkinPoller);
+  jenkinsConfig = jenkinsConfig.replace("{{GitUrl}}", fire.url);
+  jenkinsConfig = jenkinsConfig.replace("{{CredentialId}}", fire.jenkinCredentialId);
+  jenkinsConfig = jenkinsConfig.replace("{{service}}", fire.service);
+  fs.writeFileSync("./jenkins/".concat(fire.service).concat(".xml"), jenkinsConfig);
+  console.log("Creating config file : " + fire.service);
+  let commandLines = 'cd ..\\{{service}}\ngit init\ngit add --all\ngit commit -m "Initial Commit"\ngit remote add origin {{url}}\nrem git push -u origin master\n\n';
+  commandLines = commandLines.replace("{{service}}", fire.service)
+  commandLines = commandLines.replace("{{url}}", fire.url)
+  commands = commandLines.concat(commands);
+});
 
-console.log("jenkins job template generated")
+commands = commands.concat("cd ..\\setup\\jenkins\n\n");
+firestrap.git.forEach(fire => {
+  let commandLines = 'java -jar jenkins-cli.jar -s {{jenkinurl}} -auth {{user}}:{{pass}} create-job {{jobname}}<{{service-xml}}\n\n';
+  commandLines = commandLines.replace("{{user}}", firestrap.jenkins.user)
+  commandLines = commandLines.replace("{{jenkinurl}}", firestrap.jenkins.url)
+  commandLines = commandLines.replace("{{pass}}", firestrap.jenkins.password)
+  commandLines = commandLines.replace("{{jobname}}", fire.service)
+  commandLines = commandLines.replace("{{service-xml}}", fire.service.concat(".xml"))
+  commands = commands.concat(commandLines);
+})
 
-var configureGit=fs.readFileSync("./templates/configureGit.template","utf8")
 
-configureGit=configureGit.replace("{{discovery}}",firestrap_props.git.discovery);
-configureGit=configureGit.replace("{{gateway}}",firestrap_props.git.gateway);
-configureGit=configureGit.replace("{{oauth2Server}}",firestrap_props.git.oauth2Server);
-configureGit=configureGit.replace("{{angularUI}}",firestrap_props.git.angularUI);
-configureGit=configureGit.replace("{{serviceOne}}",firestrap_props.git.serviceOne);
-configureGit=configureGit.replace("{{url}}",firestrap_props.jenkins.url);
-configureGit=configureGit.replace("{{user}}",firestrap_props.jenkins.user);
-configureGit=configureGit.replace("{{pass}}",firestrap_props.jenkins.password);
-configureGit=configureGit.replace("{{jobname}}",firestrap_props.jenkins.jobname);
-configureGit=configureGit.replace("{{url}}",firestrap_props.jenkins.url);
-configureGit=configureGit.replace("{{user}}",firestrap_props.jenkins.user);
-configureGit=configureGit.replace("{{pass}}",firestrap_props.jenkins.password);
-configureGit=configureGit.replace("{{jobname}}",firestrap_props.jenkins.jobname);
-
-fs.writeFileSync("./config.bat",configureGit)
+fs.writeFileSync("config.bat", commands);
