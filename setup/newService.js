@@ -74,6 +74,16 @@ const getDirectories=(dir) => {
     fs.writeFileSync(processingfile, content);
     console.log("processed "+processingfile);
  })
+ let settings_gradle=`${rootDir}/${newService.name}/settings.gradle`
+ let settings=fs.readFileSync(settings_gradle, "utf8");
+ settings=settings.replaceAll('{{service}}',newService.name);
+ fs.writeFileSync(settings_gradle, settings);
+
+
+ let jenkinFile=`${rootDir}/${newService.name}/Jenkinsfile`
+ let jenkinF=fs.readFileSync(jenkinFile, "utf8");
+ jenkinF=jenkinF.replaceAll('{{service}}',newService.name);
+ fs.writeFileSync(jenkinFile, jenkinF);
 
  // configuring git.
  let commands = "";

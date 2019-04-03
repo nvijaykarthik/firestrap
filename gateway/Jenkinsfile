@@ -10,7 +10,7 @@ pipeline {
             steps {
                 //bat(/copy build\libs\discovery-0.0.1-SNAPSHOT.jar  D:\development\DEP\Deploy\discovery.jar/)
                 withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                        bat(/start java -jar build\libs\discovery-0.0.1-SNAPSHOT.jar/)
+                        bat(/start java -jar build\libs\gateway-0.0.1-SNAPSHOT.jar/)
                   }
             }
         } 

@@ -1,4 +1,4 @@
-node{
+node{ 
    def gradleHome = tool 'G5.1.1'
    dir('discovery'){
        stage('checkOut') { // for display purposes
