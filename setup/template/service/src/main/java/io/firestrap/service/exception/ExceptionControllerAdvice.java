@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import io.firestrap.service.configuration.ExceptionMapping;
+import io.firestrap.{{service}}.configuration.ExceptionMapping;
 
 @ControllerAdvice
 public class ExceptionControllerAdvice {

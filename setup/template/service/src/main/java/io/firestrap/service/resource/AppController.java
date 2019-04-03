@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path = "/api/{{service}}")
-public class Controller {
+public class AppController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	@ResponseBody
