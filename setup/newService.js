@@ -3,6 +3,8 @@ const path = require('path');
 const rootDir = path.join(__dirname, '..');
 
 let newService=require('./newservice.json').service
+let git=require('./newservice.json').git
+let jenkins=require('./newservice.json').jenkins
 
 
 if (fs.existsSync(`${rootDir}/serviceTemplate/`)) {
@@ -72,3 +74,30 @@ const getDirectories=(dir) => {
     fs.writeFileSync(processingfile, content);
     console.log("processed "+processingfile);
  })
+
+ // configuring git.
+ let commands = "";
+ let jenkinsConfig = fs.readFileSync("./jenkins/config.xml", "utf8");
+  jenkinsConfig = jenkinsConfig.replace("{{JenkinPoller}}", jenkins.JenkinPoller);
+  jenkinsConfig = jenkinsConfig.replace("{{GitUrl}}", git.url);
+  jenkinsConfig = jenkinsConfig.replace("{{CredentialId}}", git.jenkinCredentialId);
+  jenkinsConfig = jenkinsConfig.replace("{{service}}", newService.name);
+  fs.writeFileSync("./jenkins/".concat(newService.name).concat(".xml"), jenkinsConfig);
+  console.log("Creating config file : " + newService.name);
+
+  let commandLines = 'cd ..\\{{service}}\ngit init\ngit add --all\ngit commit -m "Initial Commit"\ngit remote add origin {{url}}\nrem git push -u origin master\n\n';
+  commandLines = commandLines.replace("{{service}}", newService.name)
+  commandLines = commandLines.replace("{{url}}", git.url)
+  commands = commandLines.concat(commands);
+  
+  commands = commands.concat("cd ..\\setup\\jenkins\n\n");
+
+  commandLines = 'java -jar jenkins-cli.jar -s {{jenkinurl}} -auth {{user}}:{{pass}} create-job {{jobname}}<{{service-xml}}\n\n';
+  commandLines = commandLines.replace("{{user}}", jenkins.user)
+  commandLines = commandLines.replace("{{jenkinurl}}", jenkins.url)
+  commandLines = commandLines.replace("{{pass}}", jenkins.password)
+  commandLines = commandLines.replace("{{jobname}}", newService.name)
+  commandLines = commandLines.replace("{{service-xml}}", newService.name.concat(".xml"))
+  commands = commands.concat(commandLines);
+
+  fs.writeFileSync("newGitJenkin.bat", commands);
