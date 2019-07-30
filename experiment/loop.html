@@ -1,0 +1,39 @@
+<html>
+
+    <head>
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+        
+    </head>
+    <body>
+        <table id="table-1" border="1">
+            <tr>
+                <th>Key1</th>
+                <th>Key2</th>
+                <th>Key3</th>
+                <th>Key4</th>
+            </tr>
+        </table>
+       <script>
+           var data = [{ key_1 : "value_1_1", key_2 : "value_2_1", key_3 : "Value_3_1", key_4 : "Value_4_1" },
+           { key_1 : "value_1_2", key_2 : "value_2_2", key_3 : "Value_3_2", key_4 : "Value_4_2" },
+           { key_1 : "value_1_3", key_2 : "value_2_3", key_3 : "Value_3_3", key_4 : "Value_4_3" },
+           { key_1 : "value_1_4", key_2 : "value_2_4", key_3 : "Value_3_4", key_4 : "Value_4_4" },
+           { key_1 : "value_1_5", key_2 : "value_2_5", key_3 : "Value_3_5", key_4 : "Value_4_5" },
+           ];
+
+           var tbl_body;
+           $.each(data, function() {
+                var tbl_row = "";
+                $.each(this, function(k , v) {
+                    tbl_row += "<td>"+v+"</td>";
+                })
+                tbl_body += "<tr>"+tbl_row+"</tr>";            
+            })
+
+            $("#table-1").append(tbl_body);
+       </script>
+    </body>
+</html>
